@@ -138,7 +138,7 @@ async def api_paragraph_score(req: AnalyzeRequest):
 @router.post(
     "/scan/snippets",
     tags=["Extension"],
-    summary="Ultra-fast batch scan for search snippets",
+    summary="Batch scan of short snippets (search results)",
 )
 async def api_scan_snippets(request: Request, req: SnippetBatchRequest):
     """Ultra-fast batch scan for Google search snippets."""
@@ -515,7 +515,9 @@ async def api_analyze(request: Request, req: AnalyzeRequest):
 
 
 @router.post(
-    "/extract", tags=["Extension"], summary="Extract text from PDF/DOCX/TXT/MD files"
+    "/extract",
+    tags=["Analysis"],
+    summary="Extract text from uploaded documents (PDF, DOCX, TXT, MD)",
 )
 # FastAPI inspects File metadata in the parameter default.
 async def api_extract(file: UploadFile = File(...)):  # noqa: B008
@@ -535,7 +537,7 @@ async def api_extract(file: UploadFile = File(...)):  # noqa: B008
 @router.post(
     "/scan/site",
     tags=["Site check"],
-    summary="Detect AI app builders and site characteristics",
+    summary="Detect sites built with AI app builders, plus a quick score of the page copy",
 )
 async def api_scan_site(req: SiteScanRequest):
     """Was this website built with an AI app builder, and does its copy read as AI?
