@@ -131,3 +131,20 @@ def test_a_report_says_which_language_it_scored(client):
     dumped = report.model_dump()
     assert dumped["language"] == "es"
     assert dumped["language_support"] in {"supported", "experimental", "unsupported"}
+
+
+def test_api_paths_have_tags(client):
+    openapi = client.app.openapi()
+    for path, methods in openapi["paths"].items():
+        if path.startswith("/api"):
+            for method, method_data in methods.items():
+                if method.lower() in (
+                    "get",
+                    "post",
+                    "put",
+                    "delete",
+                    "patch",
+                    "options",
+                    "head",
+                ):
+                    assert method_data.get("tags"), f"{path} {method} missing tags"
